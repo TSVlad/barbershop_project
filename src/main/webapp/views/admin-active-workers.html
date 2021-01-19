@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Работники</title>
+
+    <script src="../resources/libs/JQuery/jquery-3.5.1.min.js"></script>
+    <script src="../resources/js/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+    <script src="../resources/libs/bootstrap-4.5.0-dist/js/bootstrap.min.js"></script>
+    <link href="../resources/libs/bootstrap-4.5.0-dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="icon" href="../resources/media/images/favicon.ico">
+    <link href="../resources/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="../resources/css/bootstrap-buttons.css">
+    <script src="../resources/js/admin-active-workers.js"></script>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/edit-services">Услуги</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/active-orders">Активные записи</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/archive-orders">Архив</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/admin/active-workers">Работники</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/archived-workers">Архив работников</a>
+            </li>
+        </ul>
+
+        <form class="form-inline my-2 my-lg-0">
+            <button class="btn btn-outline-danger btn-danger my-2 my-sm-0" type="button" onclick="window.location.href = '/logout'">Выйти</button>
+        </form>
+    </div>
+</nav>
+
+<div class="row">
+    <div class="col"></div>
+
+    <div class="col-6">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Мастер</th>
+                <th scope="col">Логин</th>
+                <th scope="col">
+                    <button type="button" class="btn btn-success" onclick="openAddModal()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square-fill" viewBox="0 0 16 16">
+                            <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z"/>
+                        </svg>
+                    </button>
+                </th>
+            </tr>
+            </thead>
+            <tbody id="table-body">
+                <th:block th:each="barber : ${barbers}">
+                    <tr th:id="'tr_' + ${barber.id}" >
+                        <td th:text="${barber.name}" class="name-val"></td>
+                        <td th:text="${barber.userInfo.username}" class="username-val"></td>
+                        <td class="buttons">
+                            <button type="button" class="btn btn-primary editButton" th:onclick="openEditModal([[${barber}]])">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                    <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                                </svg>
+                            </button>
+
+                            <button type="button" class="btn btn-danger" th:onclick="deleteBarber([[${barber.id}]])">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square-fill" viewBox="0 0 16 16">
+                                    <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"/>
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                </th:block>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col"></div>
+</div>
+
+
+
+<div class="modal fade" id="workersModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Информации о работнике</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal()"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="id-input">
+                <input type="hidden" id="user-id-input">
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Имя</span>
+                    </div>
+                    <input type="text" id="name-input" class="form-control">
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Логин</span>
+                    </div>
+                    <input type="text" id="login-input" class="form-control">
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Пароль</span>
+                    </div>
+                    <input type="password" id="password-input" class="form-control">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Закрыть</button>
+                <button type="button" class="btn btn-primary" onclick="saveBarber()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>

@@ -1,0 +1,41 @@
+/*--------------------------------------------*/
+/*------------------BUTTONS-------------------*/
+/*--------------------------------------------*/
+
+.pad-15{padding:15px;}
+.btn{
+    text-transform: uppercase;
+    border-radius: 0;
+    letter-spacing: 1px;
+    color: #fff;
+    border: none;
+    position: relative;
+}
+.btn:hover{ color: #fff; }
+.btn:before,
+.btn:after{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    transition: all 0.5s ease 0s;
+}
+.btn:hover:before{
+    background: rgba(255, 255, 255, 0.7);
+    left: 60%;
+    right: 60%;
+}
+.btn:hover:after{
+    background: rgba(255, 255, 255, 0.7);
+    top: 60%;
+    bottom: 60%;
+}
+.btn.red{ background: #fe6d6d; }
+.btn.blue{ background: #3cb4e5; }
+.btn.orange{ background: #ee955b; }
+.btn.green{ background: #79d799; }
+@media only screen and (max-width: 767px){
+    .btn{ margin-bottom: 20px; }
+}

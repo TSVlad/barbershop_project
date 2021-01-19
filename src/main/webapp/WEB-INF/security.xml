@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+         xmlns:beans="http://www.springframework.org/schema/beans"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.springframework.org/schema/beans
+         https://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/security
+         https://www.springframework.org/schema/security/spring-security.xsd">
+
+    <http auto-config="true">
+        <remember-me key="barbershopKey" token-validity-seconds="2419200"/>
+
+        <logout logout-url="/logout"/>
+
+        <csrf disabled="true"/>
+
+        <intercept-url pattern="/admin/*" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/barber/*" access="hasRole('ROLE_BARBER')"/>
+
+        <access-denied-handler error-page="/403"/>
+    </http>
+
+    <authentication-manager>
+        <authentication-provider>
+            <password-encoder ref="encoder"/>
+            <jdbc-user-service  id="userService" data-source-ref="myDataSource"
+                users-by-username-query="SELECT username, password, enabled FROM users WHERE username=?"
+                authorities-by-username-query="SELECT users.username, roles.role_name
+                FROM users JOIN authorities ON users.id = authorities.user_id JOIN roles ON authorities.role_id = roles.id
+                WHERE username=?"/>
+
+<!--            <user-service id="userService">-->
+<!--                <user name="admin" authorities="ROLE_ADMIN" password="$2a$04$17d3Y4UwKoLjCUrNXNt6/Ok5jHzDEzwYKpGOpwj7.XV17SRJuyzPu"/>-->
+<!--            </user-service>-->
+
+        </authentication-provider>
+    </authentication-manager>
+
+    <beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" >
+        <beans:constructor-arg value="4"/>
+    </beans:bean>
+
+    <beans:bean id="myDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <beans:property name="url" value="jdbc:mysql://localhost:3306/barber_db?useUnicode=true&amp;serverTimezone=UTC" />
+        <beans:property name="username" value="barber" />
+        <beans:property name="password" value="barber" />
+    </beans:bean>
+</beans:beans>
+
