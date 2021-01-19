@@ -1,7 +1,8 @@
 let service = {
     id: null,
     name: null,
-    price: null
+    price: null,
+    isActive: true
 };
 
 function deleteService(id) {

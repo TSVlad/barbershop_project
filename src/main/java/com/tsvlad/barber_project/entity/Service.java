@@ -17,6 +17,9 @@ public class Service {
     @Column(name = "price")
     private int price;
 
+    @Column(name = "isActive")
+    private boolean isActive;
+
     public Service() {
     }
 
@@ -49,12 +52,21 @@ public class Service {
         this.price = price;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
     @Override
     public String toString() {
         return "Service{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
+                ", isActive=" + isActive +
                 '}';
     }
 }

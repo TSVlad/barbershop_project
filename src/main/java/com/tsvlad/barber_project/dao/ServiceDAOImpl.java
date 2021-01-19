@@ -18,7 +18,7 @@ public class ServiceDAOImpl implements ServiceDAO {
     @Override
     public List<Service> getServices() {
         Session session = sessionFactory.getCurrentSession();
-        Query<Service> query = session.createQuery("FROM Service", Service.class);
+        Query<Service> query = session.createQuery("FROM Service WHERE isActive = true");
         return query.getResultList();
     }
 
@@ -31,7 +31,7 @@ public class ServiceDAOImpl implements ServiceDAO {
     @Override
     public void deleteService(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("DELETE FROM Service WHERE id=:id");
+        Query query = session.createQuery("UPDATE Service set isActive = false WHERE id=:id");
         query.setParameter("id", id);
         query.executeUpdate();
     }

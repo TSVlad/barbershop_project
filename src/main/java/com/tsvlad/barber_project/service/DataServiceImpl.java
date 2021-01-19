@@ -198,6 +198,7 @@ public class DataServiceImpl implements DataService{
     @Override
     @Transactional
     public void saveService(Service service) {
+        service.setActive(true);
         serviceDAO.saveService(service);
     }
 }
