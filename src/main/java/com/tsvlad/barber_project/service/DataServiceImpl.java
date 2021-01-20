@@ -6,7 +6,6 @@ import com.tsvlad.barber_project.entity.complexKeys.OrderKey;
 import com.tsvlad.barber_project.enums.OrderStatus;
 import com.tsvlad.barber_project.json_classes.ActiveOrderJSON;
 import com.tsvlad.barber_project.rest.errors.exceptions.DbDataNotFoundException;
-import com.tsvlad.barber_project.rest.errors.exceptions.UsernameAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +15,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
 public class DataServiceImpl implements DataService{
@@ -53,10 +53,15 @@ public class DataServiceImpl implements DataService{
     @Transactional
     public List<Barber> getBarbersWhichWorkAtDay(DayOfWeek weekDay) {
         List<ScheduleItem> scheduleItemList = scheduleDAO.getScheduleItemsForDay(weekDay);
-        List<Barber> barbers = new ArrayList<>();
-        for (ScheduleItem scheduleItem : scheduleItemList) {
-            barbers.add(scheduleItem.getScheduleItemKey().getBarber());
-        }
+//        List<Barber> barbers = new ArrayList<>();
+//        for (ScheduleItem scheduleItem : scheduleItemList) {
+//            barbers.add(scheduleItem.getScheduleItemKey().getBarber());
+//        }
+
+        List<Barber> barbers = scheduleItemList.stream()
+                .map(s -> s.getScheduleItemKey().getBarber())
+                .collect(Collectors.toList());
+
         return barbers;
     }
 
