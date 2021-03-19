@@ -17,7 +17,7 @@ public class Service {
     @Column(name = "price")
     private int price;
 
-    @Column(name = "isActive")
+    @Column(name = "is_active")
     private boolean isActive;
 
     public Service() {
