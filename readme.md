@@ -45,7 +45,7 @@ Spring AOP, Spring Security, Hibernate, MySQL, Thymeleaf
 
 Просмотр активных записей:
 
-![img](https://github.com/TSVlad/barber_boot/blob/master/images/14.png)
+![img](https://github.com/TSVlad/barber_boot/blob/master/images/15.png)
 
 Список работников и модальное окно для корректирования информации:
 
@@ -69,4 +69,4 @@ Spring AOP, Spring Security, Hibernate, MySQL, Thymeleaf
 
 Активные записи работника:
 
-![img](https://github.com/TSVlad/barber_boot/blob/master/images/15.png)
+![img](https://github.com/TSVlad/barber_boot/blob/master/images/14.png)
